@@ -4,7 +4,10 @@ const path = require('path');
 
 const ARTIFACT_BASENAME = 'gecko-1.4.1.xpi';
 const artifactsDir = path.join(__dirname, '..', 'artifacts');
-const base64Path = path.join(artifactsDir, `${ARTIFACT_BASENAME}.base64`);
+const BASE64_EXTENSIONS = ['.txt', '.base64'];
+const base64Path = BASE64_EXTENSIONS.map((ext) =>
+  path.join(artifactsDir, `${ARTIFACT_BASENAME}${ext}`)
+).find((candidate) => fs.existsSync(candidate));
 const outputPath = path.join(artifactsDir, ARTIFACT_BASENAME);
 
 function exitWithError(message) {
@@ -12,12 +15,18 @@ function exitWithError(message) {
   process.exitCode = 1;
 }
 
-if (!fs.existsSync(base64Path)) {
-  exitWithError(`Missing base64 artifact: ${path.relative(process.cwd(), base64Path)}`);
+if (!base64Path) {
+  const expected = BASE64_EXTENSIONS.map((ext) =>
+    path.relative(process.cwd(), path.join(artifactsDir, `${ARTIFACT_BASENAME}${ext}`))
+  ).join(', ');
+  exitWithError(`Missing encoded artifact. Expected one of: ${expected}`);
   return;
 }
 
 try {
+  console.log(
+    `Decoding ${path.relative(process.cwd(), base64Path)} → ${path.relative(process.cwd(), outputPath)}...`
+  );
   const base64Content = fs
     .readFileSync(base64Path, 'utf8')
     .replace(/\s+/g, '');

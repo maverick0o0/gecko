@@ -90,8 +90,9 @@ The extension should now be loaded and visible in the Chrome toolbar.
    npm run artifacts:decode
    ```
 
-   The command restores `artifacts/gecko-1.4.1.xpi` from the human-readable Base64 file tracked in Git—GitHub shows the
-   source text instead of the "Binary files are not supported" banner.
+   The command restores `artifacts/gecko-1.4.1.xpi` from the human-readable Base64 file (`artifacts/gecko-1.4.1.xpi.txt`) tracked
+   in Git—GitHub shows the source text instead of the "Binary files are not supported" banner. Older clones with the `.base64`
+   extension continue to work; the decode script accepts both names.
 
 4. Choose how you want Mozilla to sign the Firefox package (permanent installs require a signed XPI):
 

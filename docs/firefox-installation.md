@@ -50,8 +50,9 @@ If you just need the signed artifact that lives in the repository, convert the B
 npm run artifacts:decode
 ```
 
-Git tracks `artifacts/gecko-1.4.1.xpi.base64` instead of the binary to avoid GitHub's "Binary files are not supported" warning.
-The command above rehydrates `artifacts/gecko-1.4.1.xpi`, which you can immediately install.
+Git tracks the signed package as `artifacts/gecko-1.4.1.xpi.txt` so the contents stay readable in GitHub’s UI. The command
+above rehydrates `artifacts/gecko-1.4.1.xpi`, which you can immediately install. Older clones that still contain the
+`.base64` variant work the same way—the decode script accepts either filename.
 
 ## Step 4 – Build the Firefox bundle
 
