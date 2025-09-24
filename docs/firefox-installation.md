@@ -21,9 +21,9 @@ npm install
 
 This installs all Node.js dependencies, including [`web-ext`](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/), the CLI that handles packaging and signing.
 
-## Step 2 – Create Mozilla Add-ons API credentials
+## Step 2 – (Optional) Create Mozilla Add-ons API credentials
 
-Permanent Firefox installations require a signed XPI. Signing is performed by Mozilla and therefore needs API credentials tied to your Mozilla Add-ons (AMO) account.
+Permanent Firefox installations require a signed XPI, but you can obtain it either via the command line or through the AMO website. You only need API credentials if you plan to use the automated signing script in Step 4, Option A.
 
 1. Sign in (or create an account) at [addons.mozilla.org](https://addons.mozilla.org/developers/).
 2. Open **Tools → Manage API Keys**.
@@ -38,6 +38,8 @@ Permanent Firefox installations require a signed XPI. Signing is performed by Mo
    These environment variables are read automatically by the signing script. If you already use the legacy names `AMO_JWT_ISSUER`
    and `AMO_JWT_SECRET`, the script accepts those as well.
 
+Skip this step entirely if you prefer to upload the bundle through the AMO website.
+
 > 💡 Tip: If you frequently sign builds, consider storing the variables in a `.env` file and loading them with a tool such as [`direnv`](https://direnv.net/) or your shell profile.
 
 ## Step 3 – Build the Firefox bundle
@@ -50,11 +52,31 @@ This command prepares the extension for Firefox by copying `public/manifest-ff.j
 
 ## Step 4 – Sign the bundle for permanent installation
 
+You must ask Mozilla to sign the bundle. Choose the approach that fits your workflow:
+
+### Option A – Sign automatically with API credentials
+
 ```bash
 npm run sign:ff
 ```
 
 `npm run sign:ff` reuses the Firefox build from Step 3 (rebuilding it if necessary) and invokes `web-ext sign` with the AMO credentials you exported. The script validates that the credentials are present before calling the API so failures surface with actionable guidance. Mozilla signs the bundle and returns a signed `.xpi` to the `artifacts/` directory—for example, `artifacts/gecko-1.4.1.xpi`. The extension remains unlisted unless you explicitly publish it in the AMO dashboard.
+
+### Option B – Sign manually through the AMO website
+
+1. Create an unsigned archive:
+
+   ```bash
+   npm run package:ff
+   ```
+
+   The command saves an unsigned `.zip` in `artifacts/` (for example, `artifacts/gecko-1.4.1.zip`).
+
+2. Visit the [AMO Developer Hub](https://addons.mozilla.org/developers/addons) and click **Submit a New Add-on**.
+3. Choose **On your own** and then **Unlisted** so the extension stays private.
+4. Upload the `.zip` created in the previous step. Mozilla processes the upload and returns a signed `.xpi` you can download from the submission page once the scan completes.
+
+Both options produce a permanently installable `.xpi`. Pick the manual route if you would rather avoid storing API credentials locally.
 
 > 🔁 Re-signing the same version is rejected by AMO. Increment the `version` field in `public/manifest-ff.json` before producing an update.
 

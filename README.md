@@ -84,13 +84,23 @@ The extension should now be loaded and visible in the Chrome toolbar.
 
    The signing script also accepts the legacy variable names `AMO_JWT_ISSUER` and `AMO_JWT_SECRET` if you already use them in your shell.
 
-3. Build and sign the Firefox package:
+3. Choose how you want Mozilla to sign the Firefox package (permanent installs require a signed XPI):
 
-   ```bash
-   npm run sign:ff
-   ```
+   - **Fast path (requires API credentials):**
 
-   The script rebuilds the project using the Firefox manifest and invokes [`web-ext sign`](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/#web-ext-sign) to download a signed `.xpi` into the `artifacts/` directory.
+     ```bash
+     npm run sign:ff
+     ```
+
+     The script rebuilds the project using the Firefox manifest and invokes [`web-ext sign`](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/#web-ext-sign) with your API credentials to download a signed `.xpi` into the `artifacts/` directory.
+
+   - **Manual path (no API credentials needed):**
+
+     ```bash
+     npm run package:ff
+     ```
+
+     This creates an unsigned `.zip` in `artifacts/`. Upload that file to the [AMO Developer Hub](https://addons.mozilla.org/developers/addons) using **Submit a New Add-on → On your own → Unlisted** and Mozilla will return a signed `.xpi` you can download from the submission page.
 
 4. Install the signed package:
 
