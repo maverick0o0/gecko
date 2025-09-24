@@ -65,6 +65,22 @@ Before you begin, ensure you have the following installed on your machine:
 
 The extension should now be loaded and visible in the Chrome toolbar.
 
+### Loading the Extension into Firefox
+
+To produce a Firefox build, run:
+
+```bash
+npm run sign:ff
+```
+
+This command rebuilds the project using the Firefox manifest and invokes [`web-ext sign`](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/#web-ext-sign) to download a signed `.xpi` into the `artifacts/` directory. Signed packages are required for permanent installation in stable Firefox releases.
+
+1. Open Firefox and navigate to `about:addons`.
+2. Click the gear icon and choose **Install Add-on From File…**
+3. Select the signed `.xpi` file from the `artifacts/` directory.
+
+For a full walkthrough (including how to obtain AMO API credentials and how to create unsigned test builds), see [docs/firefox-installation.md](docs/firefox-installation.md).
+
 ### Using Gecko
 
 1. **View Findings in DevTools:**
