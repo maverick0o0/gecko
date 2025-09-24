@@ -1,0 +1,3 @@
+# Treat bundled artifacts as text so GitHub renders them inline
+*.xpi.txt text diff
+*.base64 text diff

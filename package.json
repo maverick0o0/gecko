@@ -9,7 +9,9 @@
     "watch:chrome": "rm -rf dist && cp public/manifest-chrome.json public/manifest.json && webpack --watch",
     "watch:ff": "rm -rf dist && cp public/manifest-ff.json public/manifest.json && webpack --watch",
     "package:ff": "npm run build:ff && web-ext build --source-dir=dist --artifacts-dir=artifacts --overwrite-dest",
-    "sign:ff": "npm run build:ff && web-ext sign --source-dir=dist --artifacts-dir=artifacts"
+    "sign:ff": "npm run build:ff && node scripts/sign-firefox.js",
+    "artifacts:decode": "node scripts/decode-firefox-artifact.js"
+
   },
   "keywords": [],
   "author": "Vitor Falcao <vitorfhcosta@gmail.com>",
