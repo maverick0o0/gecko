@@ -11,6 +11,7 @@
     "package:ff": "npm run build:ff && web-ext build --source-dir=dist --artifacts-dir=artifacts --overwrite-dest",
     "sign:ff": "npm run build:ff && node scripts/sign-firefox.js",
     "artifacts:decode": "node scripts/decode-firefox-artifact.js"
+
   },
   "keywords": [],
   "author": "Vitor Falcao <vitorfhcosta@gmail.com>",
