@@ -65,6 +65,41 @@ Before you begin, ensure you have the following installed on your machine:
 
 The extension should now be loaded and visible in the Chrome toolbar.
 
+### Loading the Extension into Firefox (Permanent Installation)
+
+1. Make sure your checkout is on the latest `main` branch and dependencies are installed:
+
+   ```bash
+   git checkout main
+   git pull
+   npm install
+   ```
+
+2. Export your Mozilla Add-on (AMO) API credentials (see the linked guide if you still need to create them):
+
+   ```bash
+   export WEB_EXT_API_KEY="<your-amo-api-key>"
+   export WEB_EXT_API_SECRET="<your-amo-api-secret>"
+   ```
+
+   The signing script also accepts the legacy variable names `AMO_JWT_ISSUER` and `AMO_JWT_SECRET` if you already use them in your shell.
+
+3. Build and sign the Firefox package:
+
+   ```bash
+   npm run sign:ff
+   ```
+
+   The script rebuilds the project using the Firefox manifest and invokes [`web-ext sign`](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/#web-ext-sign) to download a signed `.xpi` into the `artifacts/` directory.
+
+4. Install the signed package:
+
+   1. Open Firefox and navigate to `about:addons`.
+   2. Click the gear icon and choose **Install Add-on From File…**
+   3. Select the signed `.xpi` file from the `artifacts/` directory and confirm the prompts.
+
+For a full walkthrough (including how to obtain AMO API credentials, how to create unsigned test builds, and troubleshooting tips), see [docs/firefox-installation.md](docs/firefox-installation.md).
+
 ### Using Gecko
 
 1. **View Findings in DevTools:**
